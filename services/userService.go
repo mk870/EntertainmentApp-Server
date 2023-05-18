@@ -12,7 +12,7 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-func CreateUserService(c *gin.Context) {
+func CreateUser(c *gin.Context) {
 	var user models.User
 	validateModelFields := validator.New()
 	c.BindJSON(&user)
@@ -49,7 +49,7 @@ func CreateUserService(c *gin.Context) {
 		},
 	}
 
-	isUserCreated := repositories.CreateUserRepository(&newUser)
+	isUserCreated := repositories.CreateUser(&newUser)
 	if !isUserCreated {
 		c.JSON(http.StatusForbidden, gin.H{"error": "this email already exists"})
 		return
@@ -64,12 +64,12 @@ func CreateUserService(c *gin.Context) {
 
 }
 
-func GetUsersService(c *gin.Context) {
-	usersList := repositories.GetUsersRepository()
+func GetUsers(c *gin.Context) {
+	usersList := repositories.GetUsers()
 	c.JSON(http.StatusOK, usersList)
 }
 
-func GetUserService(c *gin.Context) {
+func GetUser(c *gin.Context) {
 	id := c.Param("id")
 	user := repositories.GetUserById(id)
 	if user == nil {
@@ -80,7 +80,7 @@ func GetUserService(c *gin.Context) {
 	c.JSON(http.StatusOK, user)
 }
 
-func UpdateUserService(c *gin.Context) {
+func UpdateUser(c *gin.Context) {
 	var update models.User
 	c.BindJSON(&update)
 	oldData := repositories.GetUserById(c.Param("id"))
@@ -100,7 +100,7 @@ func UpdateUserService(c *gin.Context) {
 	}
 }
 
-func DeleteUserService(c *gin.Context) {
+func DeleteUser(c *gin.Context) {
 	id := c.Param("id")
 	result := repositories.DeleteUserById(id)
 	if result {

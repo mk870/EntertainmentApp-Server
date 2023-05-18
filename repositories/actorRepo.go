@@ -9,7 +9,7 @@ import (
 	"gorm.io/gorm"
 )
 
-func CreateActorRepository(user *models.User, actor *models.Actor) bool {
+func CreateActor(user *models.User, actor *models.Actor) bool {
 	err := db.DB.Model(user).Association("Actors").Append(actor)
 	if err != nil {
 		println(err.Error())
@@ -18,7 +18,7 @@ func CreateActorRepository(user *models.User, actor *models.Actor) bool {
 
 }
 
-func GetActorsRepository(id int) []models.Actor {
+func GetActors(id int) []models.Actor {
 	var user = models.User{}
 	err := db.DB.Preload("Actors").First(&user, id)
 	if err != nil {
@@ -27,7 +27,7 @@ func GetActorsRepository(id int) []models.Actor {
 	return user.Actors
 }
 
-func GetActorRepository(userId int, actorId string) models.Actor {
+func GetActor(userId int, actorId string) models.Actor {
 	var user = models.User{}
 	err := db.DB.Preload("Actors", "id=?", actorId).First(&user, userId)
 	if err != nil {
@@ -45,13 +45,13 @@ func GetUserWithActorsById(userId int) *models.User {
 	return &user
 }
 
-func UpdateActorRepository(user *models.User, updateList []models.Actor) bool {
+func UpdateActor(user *models.User, updateList []models.Actor) bool {
 	user.Actors = updateList
 	db.DB.Session(&gorm.Session{FullSaveAssociations: true}).Updates(&user)
 	return true
 }
 
-func DeleteActorByIdRepository(user *models.User, actor models.Actor) bool {
+func DeleteActorById(user *models.User, actor models.Actor) bool {
 	db.DB.Model(&user).Unscoped().Association("Actors").Delete(actor)
 	return true
 }

@@ -9,7 +9,7 @@ import (
 	"gorm.io/gorm"
 )
 
-func CreateMovieRepository(user *models.User, movie *models.Movie) bool {
+func CreateMovie(user *models.User, movie *models.Movie) bool {
 	err := db.DB.Model(user).Association("Movies").Append(movie)
 	if err != nil {
 		println(err.Error())
@@ -17,7 +17,7 @@ func CreateMovieRepository(user *models.User, movie *models.Movie) bool {
 	return true
 }
 
-func GetMoviesRepository(id int) []models.Movie {
+func GetMovies(id int) []models.Movie {
 	var user = models.User{}
 	err := db.DB.Preload("Movies").First(&user, id)
 	if err != nil {
@@ -26,7 +26,7 @@ func GetMoviesRepository(id int) []models.Movie {
 	return user.Movies
 }
 
-func GetMovieRepository(userId int, movieId string) models.Movie {
+func GetMovie(userId int, movieId string) models.Movie {
 	var user = models.User{}
 	err := db.DB.Preload("Movies", "id=?", movieId).First(&user, userId)
 	if err != nil {
@@ -44,13 +44,13 @@ func GetUserWithMoviesById(userId int) *models.User {
 	return &user
 }
 
-func UpdateMovieRepository(user *models.User, updateList []models.Movie) bool {
+func UpdateMovie(user *models.User, updateList []models.Movie) bool {
 	user.Movies = updateList
 	db.DB.Session(&gorm.Session{FullSaveAssociations: true}).Updates(&user)
 	return true
 }
 
-func DeleteMovieByIdRepository(user *models.User, movie models.Movie) bool {
+func DeleteMovieById(user *models.User, movie models.Movie) bool {
 	db.DB.Model(&user).Unscoped().Association("Movies").Delete(movie)
 	return true
 }

@@ -9,9 +9,9 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func CreateMovie(c *gin.Context) {
-	var movie models.Movie
-	err := c.BindJSON(&movie)
+func CreateTvShow(c *gin.Context) {
+	var tvShow models.TvShow
+	err := c.BindJSON(&tvShow)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"error": "could not bind the request body",
@@ -27,32 +27,17 @@ func CreateMovie(c *gin.Context) {
 		})
 		return
 	}
-	isMovieCreated := repositories.CreateMovie(user, &movie)
-	if !isMovieCreated {
+	isTvShowCreated := repositories.CreateTvShow(user, &tvShow)
+	if !isTvShowCreated {
 		c.JSON(http.StatusInternalServerError, gin.H{
-			"error": "could not create the movie",
+			"error": "could not create the tvShow",
 		})
 		return
 	}
-	c.String(http.StatusOK, "successfully added the movie to your movie list")
+	c.String(http.StatusOK, "the tvShow has been successfully created")
 }
 
-func GetMovies(c *gin.Context) {
-	loggedStudent := c.MustGet("user").(*models.User)
-	email := loggedStudent.Email
-	user := repositories.GetUserByEmail(email)
-	if user == nil {
-		c.JSON(http.StatusInternalServerError, gin.H{
-			"error": "could not find the user",
-		})
-		return
-	}
-	movieList := repositories.GetMovies(user.Id)
-	c.JSON(http.StatusOK, movieList)
-}
-
-func GetMovie(c *gin.Context) {
-	movie_id := c.Param("id")
+func GetTvShows(c *gin.Context) {
 	loggedInUser := c.MustGet("user").(*models.User)
 	email := loggedInUser.Email
 	user := repositories.GetUserByEmail(email)
@@ -62,12 +47,12 @@ func GetMovie(c *gin.Context) {
 		})
 		return
 	}
-	movie := repositories.GetMovie(user.Id, movie_id)
-	c.JSON(http.StatusOK, movie)
+	tvShowList := repositories.GetTvShows(user.Id)
+	c.JSON(http.StatusOK, tvShowList)
 }
 
-func DeleteMovie(c *gin.Context) {
-	movie_id := c.Param("id")
+func DeleteTvShow(c *gin.Context) {
+	tvShow_id := c.Param("id")
 	loggedInUser := c.MustGet("user").(*models.User)
 	email := loggedInUser.Email
 	user := repositories.GetUserByEmail(email)
@@ -77,10 +62,10 @@ func DeleteMovie(c *gin.Context) {
 		})
 		return
 	}
-	movie := repositories.GetMovie(user.Id, movie_id)
-	isDeleted := repositories.DeleteMovieById(user, movie)
+	tvShow := repositories.GetTvShow(user.Id, tvShow_id)
+	isDeleted := repositories.DeleteTvShowById(user, tvShow)
 	if isDeleted {
-		c.JSON(http.StatusOK, "movie successfully deleted")
+		c.JSON(http.StatusOK, "the tvShow was successfully deleted")
 		return
 	}
 }

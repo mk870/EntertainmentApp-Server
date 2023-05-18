@@ -28,7 +28,7 @@ func GenerateAccessToken(firstName string, lastName string, email string, id int
 		Email:     email,
 		Id:        string(rune(id)),
 		StandardClaims: jwt.StandardClaims{
-			ExpiresAt: time.Now().Local().Add(time.Minute * time.Duration(15)).Unix(),
+			ExpiresAt: time.Now().Local().Add(time.Minute * time.Duration(60)).Unix(),
 			Id:        string(rune(id)),
 		},
 	}
