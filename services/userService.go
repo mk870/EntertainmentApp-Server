@@ -55,7 +55,7 @@ func CreateUserService(c *gin.Context) {
 		return
 	}
 
-	isVerificationEmailSent := SendVerificationEmail(user.Email, user.FirstName, "https://movie-plus-frontend.vercel.app/"+verificationToken.Token)
+	isVerificationEmailSent := SendVerificationEmail(user.Email, user.FirstName, "https://movie-plus-frontend.vercel.app/verification/"+verificationToken.Token)
 	if !isVerificationEmailSent {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "failed to send verification email"})
 		return
