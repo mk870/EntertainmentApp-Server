@@ -6,6 +6,7 @@ type Movie struct {
 	UserId       int    `json:"userId"`
 	Title        string `json:"title"`
 	Release_date string `json:"release_date"`
-	Runtime      string `json:"runtime"`
-	Tmdb_id      string `json:"tmdb_id"`
+	Rating       int    `json:"rating"`
+	Tmdb_id      int    `json:"tmdb_id"`
+	Poster       string `json:"poster" gorm:"nullable"`
 }
