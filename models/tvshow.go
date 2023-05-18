@@ -1,10 +1,10 @@
 package models
 
-type Movie struct {
+type TvShow struct {
 	MyModel
 	Id           int    `json:"id" gorm:"primary_key"`
 	UserId       int    `json:"userId"`
-	Title        string `json:"title"`
+	Name         string `json:"name"`
 	Release_date string `json:"release_date"`
 	Rating       string `json:"rating"`
 	Tmdb_id      int    `json:"tmdb_id"`

@@ -9,7 +9,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func CreateActorService(c *gin.Context) {
+func CreateActor(c *gin.Context) {
 	var actor models.Actor
 	err := c.BindJSON(&actor)
 	if err != nil {
@@ -27,7 +27,7 @@ func CreateActorService(c *gin.Context) {
 		})
 		return
 	}
-	isActorCreated := repositories.CreateActorRepository(user, &actor)
+	isActorCreated := repositories.CreateActor(user, &actor)
 	if !isActorCreated {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"error": "could not create the actor profile",
@@ -37,9 +37,9 @@ func CreateActorService(c *gin.Context) {
 	c.String(http.StatusOK, "actor profile has been successfully created")
 }
 
-func GetActorsService(c *gin.Context) {
-	loggedStudent := c.MustGet("user").(*models.User)
-	email := loggedStudent.Email
+func GetActors(c *gin.Context) {
+	loggedInUser := c.MustGet("user").(*models.User)
+	email := loggedInUser.Email
 	user := repositories.GetUserByEmail(email)
 	if user == nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
@@ -47,11 +47,11 @@ func GetActorsService(c *gin.Context) {
 		})
 		return
 	}
-	actorList := repositories.GetActorsRepository(user.Id)
+	actorList := repositories.GetActors(user.Id)
 	c.JSON(http.StatusOK, actorList)
 }
 
-func DeleteActorService(c *gin.Context) {
+func DeleteActor(c *gin.Context) {
 	actor_id := c.Param("id")
 	loggedInUser := c.MustGet("user").(*models.User)
 	email := loggedInUser.Email
@@ -62,8 +62,8 @@ func DeleteActorService(c *gin.Context) {
 		})
 		return
 	}
-	actor := repositories.GetActorRepository(user.Id, actor_id)
-	isDeleted := repositories.DeleteActorByIdRepository(user, actor)
+	actor := repositories.GetActor(user.Id, actor_id)
+	isDeleted := repositories.DeleteActorById(user, actor)
 	if isDeleted {
 		c.JSON(http.StatusOK, "actor profile successfully deleted")
 		return

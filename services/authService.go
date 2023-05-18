@@ -11,7 +11,7 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-func RefreshAccessTokenService(c *gin.Context) {
+func RefreshAccessToken(c *gin.Context) {
 	expiredAccessToken := c.Request.Header.Get("token")
 	if expiredAccessToken == "" {
 		c.JSON(http.StatusUnauthorized, gin.H{
@@ -77,7 +77,7 @@ func RefreshAccessTokenService(c *gin.Context) {
 	})
 }
 
-func LogoutService(c *gin.Context) {
+func Logout(c *gin.Context) {
 	user := c.MustGet("user").(*models.User)
 	loggedInUser := repositories.GetUserByEmail(user.Email)
 	if loggedInUser == nil {
@@ -94,7 +94,7 @@ func LogoutService(c *gin.Context) {
 	}
 }
 
-func LoginService(c *gin.Context) {
+func Login(c *gin.Context) {
 	type Login struct {
 		Email    string
 		Password string

@@ -8,13 +8,13 @@ import (
 )
 
 func GetNewAccessToken(router *gin.Engine) {
-	router.GET("/refresh-token", services.RefreshAccessTokenService)
+	router.GET("/refresh-token", services.RefreshAccessToken)
 }
 
 func Login(router *gin.Engine) {
-	router.POST("/login", services.LoginService)
+	router.POST("/login", services.Login)
 }
 
 func LoginOut(router *gin.Engine) {
-	router.GET("/logout", middleware.AuthValidator, services.LogoutService)
+	router.GET("/logout", middleware.AuthValidator, services.Logout)
 }

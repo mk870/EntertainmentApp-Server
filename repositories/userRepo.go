@@ -9,7 +9,7 @@ import (
 	"gorm.io/gorm"
 )
 
-func CreateUserRepository(user *models.User) bool {
+func CreateUser(user *models.User) bool {
 	var existingUser models.User
 	email := user.Email
 	result := db.DB.Where("email =?", email).First(&existingUser)
@@ -21,7 +21,7 @@ func CreateUserRepository(user *models.User) bool {
 	}
 }
 
-func GetUsersRepository() []models.User {
+func GetUsers() []models.User {
 	var users = []models.User{}
 	err := db.DB.Find(&users)
 	if err != nil {

@@ -10,7 +10,8 @@ import (
 var DB *gorm.DB
 
 func Connect() {
-	db, err := gorm.Open(postgres.Open("postgres://postgres:mkhue@localhost:5420/students"), &gorm.Config{})
+	dns := "postgres://izesjfds:jKWVS1IZHYbArtwFxfbiAlb3uHbLxfVp@horton.db.elephantsql.com/izesjfds"
+	db, err := gorm.Open(postgres.Open(dns), &gorm.Config{})
 	if err != nil {
 		panic(err)
 	}
