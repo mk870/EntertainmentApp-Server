@@ -135,6 +135,6 @@ func Login(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{
 		"accessToken": accessToken,
-		"response":    "logged in sucsessfully",
+		"response":    "logged in successfully",
 	})
 }

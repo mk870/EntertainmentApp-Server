@@ -1,8 +1,10 @@
 package tokens
 
+import "os"
+
 func GetAccessTokenSecret() string {
-	return "bchdfjui65yo5yonvkn589ebchjrbhrhb"
+	return os.Getenv("ACCESS_TOKEN_SECRET")
 }
 func GetRefreshTokenSecret() string {
-	return "enhuyht098urbbdhrurdavswuemvl0485rjhbvherb"
+	return os.Getenv("REFRESH_TOKEN_SECRET")
 }

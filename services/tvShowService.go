@@ -1,6 +1,7 @@
 package services
 
 import (
+	"fmt"
 	"net/http"
 
 	"movieplusApi/models"
@@ -48,6 +49,7 @@ func GetTvShows(c *gin.Context) {
 		return
 	}
 	tvShowList := repositories.GetTvShows(user.Id)
+	fmt.Print(tvShowList)
 	c.JSON(http.StatusOK, tvShowList)
 }
 
