@@ -5,8 +5,7 @@ type Artist struct {
 	Id         int    `json:"id" gorm:"primary_key"`
 	UserId     int    `json:"userId"`
 	Name       string `json:"name"`
-	Popularity int    `json:"popularity"`
-	Followers  string `json:"artists"`
+	Followers  string `json:"followers"`
 	Spotify_id string `json:"spotify_id"`
 	Poster     string `json:"poster" gorm:"nullable"`
 }

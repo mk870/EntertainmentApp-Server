@@ -1,6 +1,7 @@
 package services
 
 import (
+	"fmt"
 	"net/http"
 
 	"movieplusApi/models"
@@ -53,6 +54,7 @@ func GetActors(c *gin.Context) {
 
 func DeleteActor(c *gin.Context) {
 	actor_id := c.Param("id")
+	fmt.Println("actorid", actor_id)
 	loggedInUser := c.MustGet("user").(*models.User)
 	email := loggedInUser.Email
 	user := repositories.GetUserByEmail(email)
