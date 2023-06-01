@@ -2,9 +2,9 @@
 <img src="https://i.ibb.co/51PDVwk/gin.png" alt="gin" border="0" width="400" align="center"> 
 
 ## Project Summary 
-* This  is a Restful Gin application with CRUD operations that allow users to create an account to the movieplus app, save or add actors and movies , delete those actors and movies and login and out using Go jwt authentication.
+* This  is a Restful Gin application with CRUD operations that allow users to create an account to the tube-max app, save or add actors, tvshows, albums, artists, songs and movies , delete those actors and movies and login and out using Go jwt authentication.
 * It uses  Gin with Tomcat server as a framework.
-* The app has 12 endpoints namely : /home, /signup, /logout, /verifification, /refresh-token, /login, /movie, /actor, /movies, /actors, /movie/id and /actor/id.
+* The app has 19 endpoints namely : /home, /signup, /logout, /verifification, /refresh-token, /login, /movie, /actor, /movies, /actors, /movie/id, tshows/id, track/id, album/id, tracks, albums, artists, artist/id, and /actor/id.
 * Uses Go Jwt to secure these endpoints.
 * Uses Gin GORM to persist data to a postgreSQL database.
 
@@ -22,7 +22,7 @@
 
 ### **EndPoints Building**
 ***
-Built 5 Controllers, authController, actorController,userController, verificationController and movieController.
+Built 9 Controllers, authController, actorController, userController, albumController, artistController, trackController, tvShowController, verificationController and movieController.
 #### **User Account Creation Endpoints:** 
 * **/signup (PostMethod)**: Takes in firstname, lastname, password and email for user signup. A Jwt token is created as an authentication tool, its stored on the database and also sent by go mail to user email for verification. The password is encrypted using BCryptPasswordEncoder.
 
@@ -30,28 +30,53 @@ Built 5 Controllers, authController, actorController,userController, verificatio
 * **/login  (GetMethod)**: A Jwt token is created and returned if user login credentials are valid. 
 
 
-#### **UserActors Endpoints:**  
-* **/actor (PostMethod)**:  saves users' actors to the database with all the actor's properties like name, gender, birthday, tmdb_id and birth_place. 
-* **/actors (GetMethod)**:  retrieves all the saved actors of a client from the database.
-* **/actor/id (DeleteMethod)** : deletes a specific actor by id from the database.
+#### **Actors Endpoints:**  
+* **/actor (PostMethod)**
+* **/actors (GetMethod)**
+* **/actor/id (DeleteMethod)**
 
-#### **UserMovies Endpoints:**  
-* **/movie (PostMethod)**:  saves users' movies to the database with all the movie's properties like title, runtime, release_date and tmdb_id. 
-* **/movies (GetMethod)**:  retrieves all the saved movies of a client from the database.
-* **/movie/id (DeleteMethod)** : deletes a specific movie by id from the database.  
+#### **Movies Endpoints:**  
+* **/movie (PostMethod)** 
+* **/movies (GetMethod)**
+* **/movie/id (DeleteMethod)**  
+
+#### **TvShows Endpoints:**  
+* **/tvShow (PostMethod)** 
+* **/tvShows (GetMethod)**
+* **/tvShow/id (DeleteMethod)** 
+
+#### **Tracks Endpoints:**  
+* **/track (PostMethod)** 
+* **/tracks (GetMethod)**
+* **/track/id (DeleteMethod)** 
+
+#### **Artists Endpoints:**  
+* **/artist (PostMethod)**. 
+* **/artists (GetMethod)**
+* **/artist/id (DeleteMethod)**
+
+#### **Albums Endpoints:**  
+* **/album (PostMethod)**
+* **/albums (GetMethod)**
+* **/album/id (DeleteMethod)**
+
 
 ### **Data Storage**
 Used GORM (ORM) to persist and retrieve data from a postgreSQL database.  
-Built 4 models: 
+Built 8 models: 
 * User Model to store app users.
 * VerificationToken Model to store signup verification tokens.
-* Actor Model to store favourite actors of users. 
-* Movie Model to store favourite movies of users.
+* Actor Model. 
+* Movie Model.
+* Artist Model.
+* TvShow Model.
+* Track Model.
+* Album Model.
 
 
 
 ### **Productionization**
 ***
-In this step I deployed the postgreSQL database to AWS via 3rd party and deployed the Gin app to Railway Cloud.
+In this step I deployed the postgreSQL database to Aws via 3rd party and deployed the Gin app to Render Cloud.
 
-**Live Implemantation:** [MoviePlus](https://movie-plus-frontend.vercel.app)
+**Live Implemantation:** [Tube-Max](https://tube-max.vercel.app/)
