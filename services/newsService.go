@@ -1,7 +1,6 @@
 package services
 
 import (
-	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -27,6 +26,5 @@ func GetNews(c *gin.Context) {
 		c.JSON(resp.StatusCode, gin.H{"error": err.Error()})
 		return
 	}
-	fmt.Println("reponse", respbody)
 	c.Data(200, "application/json", respbody)
 }
