@@ -44,5 +44,6 @@ func main() {
 	controllers.CreateTvShow(router)
 	controllers.DeleteTvShow(router)
 	controllers.GetTvShows(router)
+	controllers.GetNews(router)
 	router.Run()
 }
