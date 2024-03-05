@@ -8,14 +8,9 @@ import (
 	"os"
 
 	"github.com/gin-gonic/gin"
-	//"github.com/joho/godotenv"
 )
 
 func GetNews(c *gin.Context) {
-	// err := godotenv.Load()
-	// if err != nil {
-	// 	log.Fatal("Error loading .env file")
-	// }
 	newsApiKey := os.Getenv("NEWS_API_KEY")
 	category := c.Param("category")
 	resp, err := http.Get("https://newsapi.org/v2/everything?q=" + category + "&apiKey=" + newsApiKey)
