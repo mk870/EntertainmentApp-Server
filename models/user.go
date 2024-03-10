@@ -18,7 +18,7 @@ type User struct {
 	FirstName         string            `json:"firstName" validate:"required,min=2,max=50"`
 	LastName          string            `json:"lastName" validate:"required,min=2,max=50"`
 	Email             string            `json:"email" gorm:"unique" validate:"email,required"`
-	Password          string            `json:"password" validate:"required,min=2,max=50"`
+	Password          string            `json:"password"`
 	RefreshToken      string            `json:"refreshToken"`
 	IsActive          bool              `json:"isActive"`
 	Movies            []Movie           `gorm:"ForeignKey:UserId;references:Id;constraint:OnUpdate:CASCADE,OnDelete:CASCADE"`

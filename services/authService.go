@@ -39,7 +39,7 @@ func RefreshAccessToken(c *gin.Context) {
 
 	var newRefreshToken string
 	if err == "token has expired" {
-		newRefreshToken = tokens.GenerateRefreshToken(user.FirstName, user.LastName, user.Email)
+		newRefreshToken = tokens.GenerateRefreshToken(user.FirstName, user.Email)
 		if newRefreshToken == "failed" {
 			c.JSON(http.StatusInternalServerError, gin.H{
 				"error": "could not create a new refresh token",
@@ -50,7 +50,7 @@ func RefreshAccessToken(c *gin.Context) {
 		user.RefreshToken = newRefreshToken
 		isStudentUpdated := repositories.SaveUserUpdate(user)
 		if isStudentUpdated {
-			newAccessToken := tokens.GenerateAccessToken(user.FirstName, user.LastName, user.Email, user.Id)
+			newAccessToken := tokens.GenerateAccessToken(user.FirstName, user.Email, user.Id)
 			if newAccessToken == "failed" {
 				c.JSON(http.StatusInternalServerError, gin.H{
 					"error": "could not create a new access token",
@@ -64,7 +64,7 @@ func RefreshAccessToken(c *gin.Context) {
 			return
 		}
 	}
-	newAccessToken := tokens.GenerateAccessToken(user.FirstName, user.LastName, user.Email, user.Id)
+	newAccessToken := tokens.GenerateAccessToken(user.FirstName, user.Email, user.Id)
 	if newAccessToken == "failed" {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"error": "could not create a new access token",
@@ -110,13 +110,17 @@ func Login(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "this account does not exist"})
 		return
 	}
+	if user.Password == "" {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "please login with google since you signup with it"})
+		return
+	}
 	err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(loginData.Password))
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "wrong password or email"})
 		return
 	}
 
-	refreshToken := tokens.GenerateRefreshToken(user.FirstName, user.LastName, user.Email)
+	refreshToken := tokens.GenerateRefreshToken(user.FirstName, user.Email)
 	if refreshToken == "failed" {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"error": "failed to create refresh token",
@@ -125,7 +129,7 @@ func Login(c *gin.Context) {
 	}
 	user.RefreshToken = refreshToken
 	repositories.SaveUserUpdate(user)
-	accessToken := tokens.GenerateAccessToken(user.FirstName, user.LastName, user.Email, user.Id)
+	accessToken := tokens.GenerateAccessToken(user.FirstName, user.Email, user.Id)
 	if accessToken == "failed" {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"error": "failed to create access token",

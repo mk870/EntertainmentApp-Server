@@ -29,7 +29,7 @@ func CreateUser(c *gin.Context) {
 		return
 	}
 
-	refreshTokenResult := tokens.GenerateRefreshToken(user.FirstName, user.LastName, user.Email)
+	refreshTokenResult := tokens.GenerateRefreshToken(user.FirstName, user.Email)
 	if refreshTokenResult == "failed" {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"error": "failed to create refresh token",

@@ -16,6 +16,8 @@ func main() {
 	config.AddAllowHeaders("Authorization", "token", "User-Agent", "Accept")
 	router.Use(cors.New(config))
 	db.Connect()
+	controllers.GoogleSignUp(router)
+	controllers.GoogleLogin(router)
 	controllers.CreateUser(router)
 	controllers.GetUsers(router)
 	controllers.UpdateUser(router)

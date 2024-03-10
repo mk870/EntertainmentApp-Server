@@ -50,7 +50,7 @@ func VerifyToken(c *gin.Context) {
 		c.JSON(http.StatusForbidden, gin.H{"error": "this user does not exist"})
 		return
 	}
-	refreshToken := tokens.GenerateRefreshToken(user.FirstName, user.LastName, user.Email)
+	refreshToken := tokens.GenerateRefreshToken(user.FirstName, user.Email)
 	if refreshToken == "failed" {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": "could not generate your refresh token",
@@ -61,7 +61,7 @@ func VerifyToken(c *gin.Context) {
 	user.IsActive = true
 	isUpdated := repositories.SaveUserUpdate(user)
 	if isUpdated {
-		accessToken := tokens.GenerateAccessToken(user.FirstName, user.LastName, user.Email, user.Id)
+		accessToken := tokens.GenerateAccessToken(user.FirstName, user.Email, user.Id)
 		if accessToken == "failed" {
 			c.JSON(http.StatusInternalServerError, gin.H{
 				"error": "could not generate your access token",

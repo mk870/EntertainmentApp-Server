@@ -8,23 +8,20 @@ import (
 
 type RefreshTokenClaims struct {
 	FirstName string
-	LastName  string
 	Email     string
 	jwt.StandardClaims
 }
 
 type AccessTokenClaims struct {
 	FirstName string
-	LastName  string
 	Email     string
 	Id        string
 	jwt.StandardClaims
 }
 
-func GenerateAccessToken(firstName string, lastName string, email string, id int) string {
+func GenerateAccessToken(firstName string, email string, id int) string {
 	claims := &AccessTokenClaims{
 		FirstName: firstName,
-		LastName:  lastName,
 		Email:     email,
 		Id:        string(rune(id)),
 		StandardClaims: jwt.StandardClaims{
@@ -43,10 +40,9 @@ func GenerateAccessToken(firstName string, lastName string, email string, id int
 
 }
 
-func GenerateRefreshToken(firstName string, lastName string, email string) string {
+func GenerateRefreshToken(firstName string, email string) string {
 	claims := &RefreshTokenClaims{
 		FirstName: firstName,
-		LastName:  lastName,
 		Email:     email,
 		StandardClaims: jwt.StandardClaims{
 			ExpiresAt: time.Now().Local().Add(time.Hour * time.Duration(24)).Unix(),
