@@ -8,6 +8,7 @@ import (
 	"movieplusApi/models"
 	"movieplusApi/repositories"
 	"movieplusApi/tokens"
+	"movieplusApi/utilities"
 
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
@@ -16,7 +17,7 @@ import (
 func CreateVerificationToken() models.VerificationToken {
 	var verificationToken models.VerificationToken
 	token := uuid.New().String()
-	verificationToken.ExpiryDate = time.Now().Add(time.Minute * 15)
+	verificationToken.ExpiryDate = utilities.GenerateVerificationGracePeriod()
 	verificationToken.Token = token
 	return verificationToken
 }

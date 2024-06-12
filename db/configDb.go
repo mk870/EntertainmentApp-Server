@@ -16,6 +16,6 @@ func Connect() {
 	if err != nil {
 		panic(err)
 	}
-	db.AutoMigrate(&models.User{}, &models.Actor{}, &models.VerificationToken{}, &models.Movie{}, &models.Album{}, &models.Artist{}, &models.Track{}, &models.TvShow{})
+	db.AutoMigrate(&models.User{}, &models.Actor{}, &models.VerificationToken{}, &models.VerificationCode{}, &models.Movie{}, &models.Album{}, &models.Artist{}, &models.Track{}, &models.TvShow{})
 	DB = db
 }

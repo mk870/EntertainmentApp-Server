@@ -10,6 +10,9 @@ import (
 func CreateUser(router *gin.Engine) {
 	router.POST("/user", services.CreateUser)
 }
+func CreateUserByMobile(router *gin.Engine) {
+	router.POST("/user-mobile", services.UserRegistrationByMobile)
+}
 
 func GetUsers(router *gin.Engine) {
 	router.GET("/users", middleware.AuthValidator, services.GetUsers)

@@ -62,3 +62,12 @@ func GetUserByEmail(email string) *models.User {
 		return &user
 	}
 }
+
+func GetUserWithRegistrationCodeById(id string) models.User {
+	var user models.User
+	err := db.DB.Preload("RegistrationCode").First(&user, id)
+	if err != nil {
+		println(err.Name(), err.Statement)
+	}
+	return user
+}
