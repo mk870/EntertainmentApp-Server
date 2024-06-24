@@ -18,3 +18,8 @@ func GetVerificationCodeById(userId string) models.VerificationCode {
 	}
 	return user.RegistrationCode
 }
+
+func UpdateVerificationCode(verificationCodeUpdate *models.VerificationCode) bool {
+	db.DB.Save(verificationCodeUpdate)
+	return true
+}

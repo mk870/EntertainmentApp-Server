@@ -13,3 +13,7 @@ func VerificationCodeValidation(router *gin.Engine) {
 func ResendVerificationCode(router *gin.Engine) {
 	router.GET("/resend-verification-code/:id", services.ResendVerificationCode)
 }
+
+func GetVerificationCode(router *gin.Engine) {
+	router.GET("/verification-code/:id", services.GetVerificationCode)
+}

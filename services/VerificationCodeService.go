@@ -88,17 +88,22 @@ func GetVerificationCode(c *gin.Context) {
 
 func ResendVerificationCode(c *gin.Context) {
 	userId := c.Param("id")
-	userToUpDate := repositories.GetUserWithRegistrationCodeById(userId)
-	userToUpDate.RegistrationCode.Code = utilities.GenerateVerificationCode()
-	userToUpDate.RegistrationCode.ExpiryDate = time.Now().Add(time.Minute * 15)
-	isUserUpdated := repositories.SaveUserUpdate(&userToUpDate)
-	if !isUserUpdated {
+	user := repositories.GetUserById(userId)
+	if user == nil {
+		c.JSON(http.StatusForbidden, gin.H{"error": "this user does not exist"})
+		return
+	}
+	verificationCode := repositories.GetVerificationCodeById(userId)
+	verificationCode.Code = utilities.GenerateVerificationCode()
+	verificationCode.ExpiryDate = time.Now().Add(time.Minute * 15)
+	isVerificationCodeUpdated := repositories.UpdateVerificationCode(&verificationCode)
+	if !isVerificationCodeUpdated {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"error": "could not generate another code",
 		})
 		return
 	}
-	isEmailSent := SendVerificationCodeEmail(userToUpDate.Email, userToUpDate.FirstName, utilities.ConvertIntToString(userToUpDate.RegistrationCode.Code))
+	isEmailSent := SendVerificationCodeEmail(user.Email, user.FirstName, utilities.ConvertIntToString(verificationCode.Code))
 	if !isEmailSent {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "failed to send verification email"})
 		return
