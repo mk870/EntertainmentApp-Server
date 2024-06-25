@@ -6,6 +6,7 @@ import (
 	"movieplusApi/models"
 	"movieplusApi/repositories"
 	"movieplusApi/tokens"
+	"movieplusApi/utilities"
 
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator/v10"
@@ -57,7 +58,17 @@ func CreateUser(c *gin.Context) {
 
 	isVerificationEmailSent := SendVerificationEmail(user.Email, user.FirstName, "https://tube-max.vercel.app/verification/"+verificationToken.Token)
 	if !isVerificationEmailSent {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "failed to send verification email"})
+		recentlyCreatedUser := repositories.GetUserByEmail(newUser.Email)
+		if recentlyCreatedUser == nil {
+			c.JSON(http.StatusForbidden, gin.H{"error": "this user does not exist"})
+			return
+		}
+		isRecentlyCreatedUserDeleted := repositories.DeleteUserById(utilities.ConvertIntToString(recentlyCreatedUser.Id))
+		if !isRecentlyCreatedUserDeleted {
+			c.JSON(http.StatusForbidden, gin.H{"error": "this user does not exist"})
+			return
+		}
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "failed to send verification email, please signup again"})
 		return
 	}
 	c.String(http.StatusOK, "please check your email for verification")
