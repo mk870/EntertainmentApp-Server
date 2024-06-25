@@ -48,6 +48,12 @@ func VerifyCode(c *gin.Context) {
 			return
 		}
 	}
+	if registrationData.VerificationCode != &storedVerificationCode.Code {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": "wrong verification code, please try again",
+		})
+		return
+	}
 	user := repositories.GetUserById(strconv.Itoa(storedVerificationCode.UserId))
 	if user == nil {
 		c.JSON(http.StatusForbidden, gin.H{"error": "this user does not exist"})
