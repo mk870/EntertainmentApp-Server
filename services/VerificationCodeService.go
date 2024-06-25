@@ -24,14 +24,10 @@ func CreateVerificationCode() models.VerificationCode {
 func VerifyCode(c *gin.Context) {
 	type RegistrationCodeDTO struct {
 		Id               int
-		VerificationCode *int
+		VerificationCode int
 	}
 	var registrationData = RegistrationCodeDTO{}
 	c.BindJSON(&registrationData)
-	if registrationData.VerificationCode == nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "please enter verification code"})
-		return
-	}
 	storedVerificationCode := repositories.GetVerificationCodeById(utilities.ConvertIntToString(registrationData.Id))
 
 	if storedVerificationCode.ExpiryDate.Unix() < time.Now().Local().Unix() {
@@ -48,7 +44,7 @@ func VerifyCode(c *gin.Context) {
 			return
 		}
 	}
-	if registrationData.VerificationCode != &storedVerificationCode.Code {
+	if registrationData.VerificationCode != storedVerificationCode.Code {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": "wrong verification code, please try again",
 		})
